@@ -1,4 +1,4 @@
-# InDesign-Scripts-linkElements
+# InDesign-Script-linkElements
 An InDesign CC script that link the calls to the Figures, Tables and Appendices to the corresponding legend
 
 ################################################################################################
