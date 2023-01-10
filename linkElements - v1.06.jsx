@@ -10,8 +10,9 @@
 // Script version 1.04 (4/1/2023) – corrections de bugs ;
 // Script version 1.05 (3/1/2023) – modification de la gestion des ancres (suppression de 'Ancrage 1' s'il est créé par le script) ;
 // Script version 1.06 (8/1/2023) – vérification de la présence des 3 styles de paragraphes nécessaires au fonctionnement du script ; s'ils n'existent pas, ils sont créés ; ajout d'explications sur le fonctionnement du script au début du programme, remerciements
+// Correctif version 1.061, réponse à https://github.com/ecotez-mnhn/InDesign-Script-linkElements/issues/1 (mais pas sûr que ça change quoi que ce soit)
 //
-// version actuelle : 1.06
+// version actuelle : 1.061
 // UI version 0.13maj
 // 
 // Compatibilité approximative : le script fonctionne d'une manière générale avec Adobe CC ; pour la CS6, il y a un problème avec la création automatique des couleurs, mais si les couleurs existent dans le document, le script devrait fonctionner ; avant la CS6, ça m'étonnerait qu'il fonctionne !
@@ -126,6 +127,8 @@ var scriptPathMAC = "~/Library/Preferences/Adobe Indesign/Version 18.0/fr_FR/Scr
 #targetengine "session"; 
 // #targetengine "main"; 
 // ++++++++++++++++
+
+
 
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 // FONCTIONS 
@@ -801,9 +804,17 @@ function countCallsToElements(type,langArt) {
 function logUpdate(log_text,msg) {
 	var os = $.os.toLowerCase().indexOf('mac') >= 0 ? "MAC": "WINDOWS";
 		if (os=="WINDOWS") {
-			reverse = eval(app.extractLabel('invert')).toString() ;
+			// Correction 1.061 : suppression de eval() et ajout de try ()
+			// alert(app.extractLabel('invert').toString());
+			// reverse = eval(app.extractLabel('invert')).toString() ;
+			try { reverse = app.extractLabel('invert').toString() ; }
+			catch (e) {
+				reverse=false;
+				}
 		} else {
 		reverse=false;
+		// à essayer sur mac :
+		// reverse = app.extractLabel('invert').toString() ;
 		}
 	// log_text.text = reverse + "\n" + log_text.text ;
 	if (reverse=="false") {
@@ -1646,6 +1657,7 @@ function redo(tabUndo,tabUndoIdx) {
 // +++++++++++++++++++++++++++++++++++++++++++++++++++
 
 dialog.show();
+dialog.text = "LinkElements – v1.061";
 // -----------------------------------
 
 // Ajouter une étape de vérification :
