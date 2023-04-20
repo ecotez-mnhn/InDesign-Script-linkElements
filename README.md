@@ -1,4 +1,4 @@
-This version of the script is not the latest one. Please check on my GitHub homepage to find the latest version of this script.
+v1.39 : Reference update (the script takes now in consideration calls to references linking).
 
 -------------------------------------------------------------------------------------------------------------------------------
 
