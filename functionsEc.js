@@ -1,5 +1,5 @@
 // ##################################################################################################
-// functionsEC regroupe toutes les fonctions utilisées dans les scripts développés par EC
+// functionsEC regroupe toutes les fonctions utilisées dans les scripts développés par Emmanuel Côtez
 // Date de dernière modification : 05/12/2022
 // ##################################################################################################
 

@@ -1,4 +1,4 @@
-// Interface v13.02
+// Interface v13
 
 /*
 Code for Import https://scriptui.joonas.me — (Triple click to select): 
@@ -8,13 +8,15 @@ Code for Import https://scriptui.joonas.me — (Triple click to select):
 // DIALOG
 // ======
 var dialog = new Window("palette"); 
-    dialog.text = "LinkElements – v1.06"; 
+    dialog.text = "Link calls to corresponding elements – v1.3"; 
     dialog.preferredSize.width = 60; 
     dialog.orientation = "column"; 
     dialog.alignChildren = ["center","top"]; 
     dialog.spacing = 10; 
-    dialog.margins = 16; 
+    dialog.margins = 10; 
+	// dialog.scrolling=true;
 
+// {multiline: true, scrolling: true}
 var statictext1 = dialog.add("group", undefined , {name: "statictext1"}); 
     statictext1.getText = function() { var t=[]; for ( var n=0; n<statictext1.children.length; n++ ) { var text = statictext1.children[n].text || ''; if ( text === '' ) text = ' '; t.push( text ); } return t.join('\n'); }; 
     statictext1.preferredSize.width = 360; 
@@ -22,9 +24,8 @@ var statictext1 = dialog.add("group", undefined , {name: "statictext1"});
     statictext1.alignChildren = ["left","center"]; 
     statictext1.spacing = 0; 
 
-    statictext1.add("statictext", undefined, "This script allows you to test, link and unlink calls"); 
-    statictext1.add("statictext", undefined, "to Figures, Tables and Appendices to their captions."); 
-    statictext1.helpTip = "Fly over the buttons and titles in this window to show tips on how to use this script\nUse the \u0022help\u0022 button to show the help page in your browser."; 
+    statictext1.add("statictext", undefined, "Link calls to Figs, Tables, Appendices, References and Authorships"); 
+	statictext1.helpTip = "Fly over the buttons and titles in this window to show tips on how to use this script\nUse the \u0022help\u0022 button to show the help page in your browser."; 
 
 var divider1 = dialog.add("panel", undefined, undefined, {name: "divider1"}); 
     divider1.alignment = "fill"; 
@@ -55,7 +56,7 @@ var Which = choix_element.add("group", undefined , {name: "Which"});
     Which.spacing = 0; 
 
     Which.add("statictext", undefined, "Select element(s)"); 
-    Which.add("statictext", undefined, "to test/link/unlink:"); 
+    Which.add("statictext", undefined, "to link:"); 
     Which.helpTip = "Select at least one item from the list below to unlock other features of the script."; 
 
 var ck_figures = choix_element.add("checkbox", undefined, undefined, {name: "ck_figures"}); 
@@ -68,7 +69,7 @@ var ck_appendices = choix_element.add("checkbox", undefined, undefined, {name: "
     ck_appendices.text = "Appendices"; 
 
 var ck_references = choix_element.add("checkbox", undefined, undefined, {name: "ck_references"}); 
-    ck_references.enabled = false; 
+    ck_references.enabled = true; 
     ck_references.text = "References"; 
 
 // CHOIX_LANGUE_ET_TEST
@@ -96,6 +97,7 @@ var choix_langue = choix_langue_et_test.add("group", undefined, {name: "choix_la
     choix_langue.alignChildren = ["left","top"]; 
     choix_langue.spacing = 10; 
     choix_langue.margins = 0; 
+	// choix_langue.visible = false ;
 
 var rb_language = choix_langue.add("radiobutton", undefined, undefined, {name: "rb_language"}); 
     rb_language.text = "French"; 
@@ -103,8 +105,6 @@ var rb_language = choix_langue.add("radiobutton", undefined, undefined, {name: "
 var rb_language1 = choix_langue.add("radiobutton", undefined, undefined, {name: "rb_language1"}); 
     rb_language1.text = "English"; 
     rb_language1.value = true; 
-	
-
 
 // CHOIX_LANGUE_ET_TEST
 // ====================
@@ -130,14 +130,12 @@ var choix_test = group2.add("group", undefined, {name: "choix_test"});
 var bt_delete_links = choix_test.add("button", undefined, undefined, {name: "bt_delete_links"}); 
     bt_delete_links.enabled = false; 
     bt_delete_links.helpTip = "Delete previously created links on selected element(s)"; 
-    bt_delete_links.text = "Delete links"; 
+    bt_delete_links.text = "Del. links"; 
 
 var bt_delete_links1 = choix_test.add("button", undefined, undefined, {name: "bt_delete_links1"}); 
     bt_delete_links1.enabled = false; 
-    bt_delete_links1.helpTip = "If you launch the linking function more than one time, unused anchors will be created; use the script \u0022text_anchor\u0022 to delete them."; 
-    bt_delete_links1.text = "text_anchor"; 
-	
-		
+    bt_delete_links1.helpTip = "Delete created anchors of selected element type(s). Only not linked anchors will be deleted."; 
+    bt_delete_links1.text = "Del. anchors"; 
 
 // DIALOG
 // ======
@@ -155,7 +153,7 @@ var boutons = dialog.add("group", undefined, {name: "boutons"});
 
 var bt_go = boutons.add("button", undefined, undefined, {name: "bt_go"}); 
     bt_go.enabled = false; 
-    bt_go.helpTip = "Link calls to the corresponding selected element(s) (Figures, Tables or Appendices);\nThe script will only link the calls that correspond to the language of the article."; 
+    bt_go.helpTip = "Link calls to the corresponding selected element(s) (Figures, Tables, Appendices or References).\nFor Tables and Appendices, only the calls that correspond to the language of the article will be linked."; 
     bt_go.text = "Launch linking"; 
     bt_go.preferredSize.width = 163; 
 
@@ -364,7 +362,7 @@ var group13 = group12.add("group", undefined, {name: "group13"});
     group13.margins = 0; 
 
 var statictext9 = group13.add("statictext", undefined, undefined, {name: "statictext9"}); 
-    statictext9.enabled = false; 
+    statictext9.enabled = true; 
     statictext9.text = "References:"; 
     statictext9.preferredSize.width = 80; 
 
@@ -389,7 +387,7 @@ var group14 = group12.add("group", undefined, {name: "group14"});
     group14.margins = [13,0,0,0]; 
 
 var statictext10 = group14.add("statictext", undefined, undefined, {name: "statictext10"}); 
-    statictext10.enabled = false; 
+    statictext10.enabled = true; 
     statictext10.text = "Calls to Refs:"; 
     statictext10.preferredSize.width = 100; 
 
@@ -404,10 +402,28 @@ var nb_calls_to_refs = group14.add('edittext {justify: "center", properties: {na
 var divider9 = dialog.add("panel", undefined, undefined, {name: "divider9"}); 
     divider9.alignment = "fill"; 
 
-var statictext11 = dialog.add("statictext", undefined, undefined, {name: "statictext11"}); 
+var group_correction = dialog.add("group", undefined, {name: "group_correction"}); 
+group_correction.orientation = "row"; 
+// group_correction.preferredSize.width = 184; 
+
+var statictext11 = group_correction.add("statictext", undefined, undefined, {name: "statictext11"}); 
     statictext11.helpTip = "This section can be used to test the presence of calls to elements (Figures, Tables...) in the text of article\nElement ranges are also tested.\nYou can also highlight the calls in the article, to help you to place the corresponding elements."; 
-    statictext11.text = "Correction assistance:"; 
-    statictext11.preferredSize.width = 360; 
+    statictext11.text = "Call management:"; 
+    statictext11.preferredSize.width = 145;
+
+var rb_author = group_correction.add("radiobutton", undefined, undefined, {name: "rb_author"}); 
+    rb_author.text = "References"; 
+    rb_author.value = true; 
+	rb_author.helpTip = "Select for checking references (try to link calls WITHOUT comma to references)"; 
+	rb_author.preferredSize.width = 90;
+	rb_author.visible=false;
+	
+var rb_author_2 = group_correction.add("radiobutton", undefined, undefined, {name: "rb_author"}); 
+    rb_author_2.text = "Authorships"; 
+    rb_author_2.value = false ; 	
+	rb_author_2.helpTip = "Select for checking authorships (try to link calls WITH comma to references)"; 
+	rb_author_2.preferredSize.width = 100;
+	rb_author_2.visible=false;
 
 // GROUP15
 // =======
@@ -421,26 +437,34 @@ var group15 = dialog.add("group", undefined, {name: "group15"});
 var bt_check = group15.add("button", undefined, undefined, {name: "bt_check"}); 
     bt_check.enabled = false; 
     bt_check.helpTip = "Check calls to selected Element (select at least one element)"; 
-    bt_check.text = "Check calls to..."; 
+    bt_check.text = "Check calls/refs"; 
 
 var divider10 = group15.add("panel", undefined, undefined, {name: "divider10"}); 
     divider10.alignment = "fill"; 
 
 var statictext12 = group15.add("statictext", undefined, undefined, {name: "statictext12"}); 
-    statictext12.helpTip = "Click on this button to detect and highlight the calls to all elements present in the article:\nFigures appear in red\nEnglish calls to Tables appear in green, French calls to \u0022Tableaux\u0022 in light-green;\nCalls to Appendices appear in light-pink, while calls to \u0022Annexes\u0022 appear in pink."; 
-    statictext12.text = "Spotlight  calls:"; 
+    statictext12.helpTip = "Click on this button to detect and highlight the calls to all elements present in the article (select the call type(s) first):\nCalls to Figures -> red\nEnglish calls to Tables -> green\nFrench calls to \u0022Tableaux\u0022 -> light-green\nCalls to Appendices -> light-pink\nCalls to \u0022Annexes\u0022 -> pink\nCalls to References -> purple."; 
+    statictext12.text = "Spotlight calls:"; 
 
 var bt_spotlight_on = group15.add("button", undefined, undefined, {name: "bt_spotlight_on"}); 
     bt_spotlight_on.enabled = false; 
     bt_spotlight_on.helpTip = "Highlight calls"; 
     bt_spotlight_on.text = "ON"; 
-    bt_spotlight_on.preferredSize.width = 55; 
+    bt_spotlight_on.preferredSize.width = 40; 
 
 var bt_spotlight_off = group15.add("button", undefined, undefined, {name: "bt_spotlight_off"}); 
     bt_spotlight_off.enabled = false; 
     bt_spotlight_off.helpTip = "Unhighlight calls"; 
     bt_spotlight_off.text = "OFF"; 
-    bt_spotlight_off.preferredSize.width = 55; 
+    bt_spotlight_off.preferredSize.width = 40; 
+	
+var bt_add_ref = group15.add("button", undefined, undefined, {name: "bt_add_ref"}); 
+    bt_add_ref.enabled = false; 
+    bt_add_ref.helpTip = "Highlight a call manually; if it's a complete call (author+year), the whole occurrences in the article will be highlighted; otherwise, only the selection will be highlighted."; 
+    bt_add_ref.text = "AddCall"; 
+    bt_add_ref.preferredSize.width = 55; 	
+	
+	
 
 // DIALOG
 // ======
